@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('customer_name');
             $table->string('service_name');
-            $table->enum('status', ['scheduled', 'confirmed', 'cancelled', 'completed']);
+            $table->string('status');
             $table->dateTime('appointment_datetime');
             $table->timestamps();
         });
