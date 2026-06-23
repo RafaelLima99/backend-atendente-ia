@@ -9,7 +9,8 @@ class Appointment extends Model
 {
     protected $fillable = ['customer_name', 'service_name', 'status', 'appointment_datetime'];
 
-    protected $cast = [
-        'status' => AppointmentStatus::class
+    protected $casts = [
+        'status' => AppointmentStatus::class,
+        'appointment_datetime' => 'datetime'
     ];
 }

@@ -14,19 +14,17 @@ class AppointmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-        public function index(Request $request)
-        {
-            $query = Appointment::query();
+    public function index(Request $request)
+    {
+        $query = Appointment::query();
 
-            //Se o front-end enviou um termo de busca
-            if ($request->filled('search')) {
-                $query->where('customer_name', 'like', '%' . $request->search . '%');
-            }
-
-            return AppointmentResource::collection($query->paginate(10));
-
+        //Se o front-end enviou um termo de busca
+        if ($request->filled('search')) {
+            $query->where('customer_name', 'like', '%' . $request->search . '%');
         }
 
+        return AppointmentResource::collection($query->paginate(10)->appends($request->query()));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -38,7 +36,9 @@ class AppointmentController extends Controller
 
         $appointment = Appointment::create($data);
 
-        return new AppointmentResource($appointment);
+        return (new AppointmentResource($appointment))
+            ->response()
+            ->setStatusCode(201);
     }
 
     
@@ -48,7 +48,7 @@ class AppointmentController extends Controller
     public function update(UpdateAppointmentRequest $request, Appointment $appointment)
     {
         $appointment->update($request->validated());
-        return new AppointmentResource($appointment);
+        return new AppointmentResource($appointment->refresh());
         
     }
 
