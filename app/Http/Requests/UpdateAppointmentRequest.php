@@ -29,7 +29,7 @@ class UpdateAppointmentRequest extends FormRequest
         return [
             'customer_name'        => 'required|string|max:255',
             'service_name'         => 'required|string|max:255',
-            'appointment_datetime' => 'required',
+            'appointment_datetime' => 'required|date_format:Y-m-d H:i:s',
             'status' => ['required', new Enum(AppointmentStatus::class)]
         ];
     }
